@@ -1,8 +1,8 @@
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/account-transaction?serverTimeZone=UTC
-    username: postgres
-    password: pgadmin
+    url: jdbc:postgresql://${POSTGRES_HOST:localhost}:5432/${POSTGRES_DB:account-transaction}?serverTimeZone=UTC}
+    username: ${POSTGRES_USER:postgres}
+    password: ${POSTGRES_PASSWORD:pgadmin}
 
 management:
   endpoints:
