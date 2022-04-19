@@ -1,0 +1,14 @@
+version: '3.4'
+services:
+  postgres:
+    image: postgres
+    container_name: postgresql-db
+    ports:
+      - 5432:5432
+    env_file:
+      - config/db.env
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+volumes:
+  pgdata: {}
