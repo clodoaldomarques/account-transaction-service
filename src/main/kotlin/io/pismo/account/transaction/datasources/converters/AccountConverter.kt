@@ -11,7 +11,7 @@ fun Account.toTable() : AccountTable {
     )
 }
 
-fun AccountTable.toEntity(accountId : UUID = UUID.randomUUID()) : Account {
+fun AccountTable.toEntity() : Account {
     return Account(
         accountId = this.accountId,
         documentNumber = this.documentNumber
