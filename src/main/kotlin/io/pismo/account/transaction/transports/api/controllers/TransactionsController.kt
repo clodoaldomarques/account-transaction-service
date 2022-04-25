@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController
 class TransactionsController(private val transactionsUseCase: TransactionsUseCase) : TransactionsOpenApi {
     @PostMapping
     override fun registerTransaction(@RequestBody model: PostTransactionRequestModel): ResponseEntity<TransactionResponseModel> {
-        return ResponseEntity.ok(transactionsUseCase.registerTransaction(model.toEntity()).toModel())
+        val newTransaction = transactionsUseCase.buildTransaction(model.account_id, model.operation_type_id, model.amount)
+        return ResponseEntity.ok(transactionsUseCase.registerTransaction(newTransaction).toModel())
     }
 }

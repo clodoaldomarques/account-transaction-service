@@ -7,13 +7,15 @@ import java.util.*
 fun Account.toTable() : AccountTable {
     return AccountTable(
         accountId = this.accountId,
-        documentNumber = this.documentNumber
+        documentNumber = this.documentNumber,
+        availableCreditLimit = this.availableCreditLimit
     )
 }
 
 fun AccountTable.toEntity() : Account {
     return Account(
         accountId = this.accountId,
-        documentNumber = this.documentNumber
+        documentNumber = this.documentNumber,
+        availableCreditLimit = this.availableCreditLimit
     )
 }

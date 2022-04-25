@@ -23,4 +23,8 @@ class AccountDataSource (private val accountRepository: AccountRepository) : Acc
             Optional.empty()
         }
     }
+
+    override fun update(account: Account): Account {
+        return accountRepository.save(account.toTable()).toEntity()
+    }
 }

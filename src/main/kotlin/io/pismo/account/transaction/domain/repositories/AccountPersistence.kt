@@ -7,4 +7,5 @@ import java.util.UUID
 interface AccountPersistence {
     fun create(account: Account) : Account
     fun findById(accountId : UUID) : Optional<Account>
+    fun update(account: Account) : Account
 }

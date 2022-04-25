@@ -9,13 +9,14 @@ import java.util.UUID
 
 fun buildAccount(
     accountId : UUID = UUID.randomUUID(),
-    documentNumber : String = "123.456.789-00"
-) = Account( accountId, documentNumber)
+    documentNumber : String = "123.456.789-00",
+    availableCreditLimit : BigDecimal = BigDecimal(100.00)
+) = Account( accountId, documentNumber, availableCreditLimit)
 
 fun buildTransaction(
     transactionId : UUID = UUID.randomUUID(),
-    accountId : UUID = UUID.randomUUID(),
+    account : Account = buildAccount(),
     operation: OperationType = OperationType.COMPRA_A_VISTA,
     amount : BigDecimal = BigDecimal.TEN,
     eventDate : LocalDateTime = LocalDateTime.now()
-) = Transaction(transactionId, accountId, operation, amount, eventDate)
+) = Transaction(transactionId, account, operation, amount, eventDate)

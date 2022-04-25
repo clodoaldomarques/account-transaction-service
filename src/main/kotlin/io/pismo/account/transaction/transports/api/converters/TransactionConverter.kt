@@ -11,20 +11,8 @@ import java.util.*
 fun Transaction.toModel() : TransactionResponseModel{
     return TransactionResponseModel(
         transaction_id = this.transactionId,
-        account_id = this.accountId,
+        account_id = this.account.accountId,
         operation_type_description = this.operation.description,
         amount = this.amount,
         eventDate = this.eventDate)
-}
-
-fun PostTransactionRequestModel.toEntity() : Transaction{
-    return OperationType.getById(this.operation_type_id)?.let {
-        Transaction(
-            transactionId = UUID.randomUUID(),
-            accountId = this.account_id,
-            operation = it,
-            amount = this.amount,
-            eventDate = LocalDateTime.now()
-        )
-    } ?: throw GenericBusinessException("Invalid Operation Type")
 }
