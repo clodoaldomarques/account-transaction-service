@@ -8,6 +8,7 @@ import io.pismo.account.transaction.domain.interactors.TransactionsUseCase
 import io.pismo.account.transaction.domain.repositories.AccountPersistence
 import io.pismo.account.transaction.domain.repositories.TransactionPersistence
 import io.pismo.account.transaction.transports.api.converters.toEntity
+import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
 import java.math.BigDecimal
 import java.time.LocalDateTime
@@ -16,10 +17,18 @@ import javax.transaction.Transactional
 
 @Service
 class TransactionsService(private val transactionPersistence: TransactionPersistence, private val accountPersistence: AccountPersistence) : TransactionsUseCase {
+
+    companion object {
+        private val logger = LoggerFactory.getLogger(TransactionsService::class.java)
+    }
+
+
     @Transactional(rollbackOn = [Exception::class])
     override fun registerTransaction(transaction: Transaction): Transaction {
         val preparedTransaction = transaction.prepareTransactionToRecord()
+        logger.info("Atualizando o saldo da conta numero: ${preparedTransaction.account.accountId}")
         accountPersistence.update(preparedTransaction.account)
+        logger.info("Registrando a transação nº: ${preparedTransaction.transactionId}")
         return transactionPersistence.registerTransaction(preparedTransaction)
     }
 
