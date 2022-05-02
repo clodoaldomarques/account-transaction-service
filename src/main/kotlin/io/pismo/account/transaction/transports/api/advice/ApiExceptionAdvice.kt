@@ -3,6 +3,8 @@ package io.pismo.account.transaction.tranports.api.advice
 import io.pismo.account.transaction.domain.exceptions.GenericBusinessException
 import io.pismo.account.transaction.domain.exceptions.ResourceExistsException
 import io.pismo.account.transaction.domain.exceptions.ResourceNotFoundException
+import io.pismo.account.transaction.services.TransactionsService
+import org.slf4j.LoggerFactory
 import org.springframework.dao.DataIntegrityViolationException
 import org.springframework.http.HttpHeaders
 import org.springframework.http.HttpStatus
@@ -18,6 +20,11 @@ import javax.persistence.EntityNotFoundException
 
 @ControllerAdvice
 class ApiExceptionAdvice : ResponseEntityExceptionHandler() {
+
+    companion object {
+        private val logger = LoggerFactory.getLogger(TransactionsService::class.java)
+    }
+
     @ExceptionHandler(ResourceNotFoundException::class)
     fun handleResourceNotFoundException(ex: ResourceNotFoundException, request: WebRequest): ResponseEntity<Any> {
         val status = HttpStatus.NOT_FOUND
@@ -25,6 +32,7 @@ class ApiExceptionAdvice : ResponseEntityExceptionHandler() {
         message.status = status.value()
         message.titulo = ex.message
         message.dataHora = OffsetDateTime.now()
+        logger.info(message.titulo)
         return ResponseEntity(message, status)
     }
 
@@ -35,6 +43,7 @@ class ApiExceptionAdvice : ResponseEntityExceptionHandler() {
         message.status = status.value()
         message.titulo = ex.message
         message.dataHora = OffsetDateTime.now()
+        logger.info(message.titulo)
         return ResponseEntity(message, status)
     }
 
@@ -45,6 +54,7 @@ class ApiExceptionAdvice : ResponseEntityExceptionHandler() {
         message.status = status.value()
         message.titulo = ex.message
         message.dataHora = OffsetDateTime.now()
+        logger.warn(message.titulo)
         return ResponseEntity(message, status)
     }
 
@@ -55,6 +65,7 @@ class ApiExceptionAdvice : ResponseEntityExceptionHandler() {
         message.status = status.value()
         message.titulo = "An error occurred while trying to persist the object, check its data"
         message.dataHora = OffsetDateTime.now()
+        logger.error(message.titulo)
         return ResponseEntity(message, status)
     }
 
@@ -65,6 +76,7 @@ class ApiExceptionAdvice : ResponseEntityExceptionHandler() {
         message.status = status.value()
         message.titulo = "One or more entitys not found in database"
         message.dataHora = OffsetDateTime.now()
+        logger.info(message.titulo)
         return ResponseEntity(message, status)
     }
 
@@ -88,6 +100,7 @@ class ApiExceptionAdvice : ResponseEntityExceptionHandler() {
             OffsetDateTime.now(),
             errors
         )
+        logger.warn(message.titulo)
         return ResponseEntity(message, status)
     }
 
